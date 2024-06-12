@@ -6,15 +6,16 @@ import java.util.Scanner;
 public class App {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        int choice;
+        do {
+            displayMenu();
+            choice = scanner.nextInt();
+            performOperations(choice);
+        } while (choice != 0);
+    } // end of the main method
 
-        displayMenu();
-        int choice = scanner.nextInt();
-        performOperations(choice); //1
 
-    }
-
-
-    public static void displayMenu() {
+    private static void displayMenu() {
         System.out.println("Currency Converter App");
         System.out.println("1. Convert SEK to USD");
         System.out.println("2. Convert USD to SEK");
@@ -25,14 +26,20 @@ public class App {
     }
 
 
-    public static void performOperations(int operationNumber) { // 1
+    private static void performOperations(int operationNumber) {
+        Scanner scanner = new Scanner(System.in);
+        double usdAmount, sekAmount;
 
         switch (operationNumber) {
             case 1:
-                System.out.println("Operation 1 has been executed!");
+                sekAmount = getAmount("SEK");
+                usdAmount = ExchangeOperations.convertSekToUsd(sekAmount);
+                displayConversionResult(sekAmount, usdAmount, "SEK", "USD");
                 break;
             case 2:
-                System.out.println("Operation 2 has been executed!");
+                usdAmount = getAmount("USD");
+                sekAmount = ExchangeOperations.convertUsdToSek(usdAmount);
+                displayConversionResult(usdAmount, sekAmount, "USD", "SEK");
                 break;
             case 3:
                 System.out.println("Operation 3 has been executed!");
@@ -46,6 +53,19 @@ public class App {
             default:
                 System.out.println("Invalid choice. Please enter a valid option.");
         }
+
+    }
+
+
+    private static double getAmount(String currency) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter amount in " + currency + " : ");
+        return scanner.nextDouble();
+    }
+
+
+    private static void displayConversionResult(double fromAmount, double toAmount, String fromCurrency, String toCurrency) {
+        System.out.println(fromAmount + " " + fromCurrency + " is equal to " + toAmount + " " + toCurrency + " .");
 
     }
 
